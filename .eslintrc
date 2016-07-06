@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "node": true,
+    "jasmine": true
+  },
+  "rules": {
+    "no-console": 0,
+    "arrow-body-style": 0
+  }
+}

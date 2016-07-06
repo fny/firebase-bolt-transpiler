@@ -1,0 +1,12 @@
+type Child {
+  age: Number
+}
+
+type Parent {
+}
+
+path /parents {
+  /{parent} is Parent {
+    /{child} is Child;
+  }
+}
