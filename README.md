@@ -15,7 +15,7 @@ Featuring `GenericSupport<T>` and `NestedGenericSupport<NestedGenericSupport<Gen
 
 ## Known Issues
 
-  - `type ExtendedObject extends Object {}` doesn't return `interface ExtendedObject extends Object {}` since the Bolt compiler marks everything as derived from `Object` by default
+ - `type ExtendedObject extends Object {}` doesn't return `interface ExtendedObject extends Object {}` since the Bolt compiler marks everything as derived from `Object` by default
  - Array types (e.g. `Object[]`) aren't tranlated to arrays in TypeScript since the Bolt compiler turns all arrays into `Map<String, Object>` generics
 
 ## Wishlist
