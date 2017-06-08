@@ -1,11 +1,18 @@
 {
   "name": "firebase-bolt-transpiler",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transpile Bolt type definitions to TypeScript",
-  "keywords": ["firebase", "bolt", "typescript"],
+  "keywords": [
+    "firebase",
+    "bolt",
+    "typescript"
+  ],
   "main": "index.js",
   "scripts": {
     "test": "jasmine"
+  },
+  "bin": {
+    "firebase-bolt-transpiler": "./bin/firebase-bolt-transpiler"
   },
   "repository": {
     "type": "git",
@@ -19,7 +26,8 @@
   "homepage": "https://github.com/fny/firebase-bolt-transpiler#readme",
   "dependencies": {
     "firebase-bolt": "^0.8.0",
-    "lodash": "^4.13.1"
+    "lodash": "^4.13.1",
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^2.11.1",

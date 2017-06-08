@@ -1,0 +1,71 @@
+#!/usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const parseArgs = require('minimist');
+const pkg = require('../package.json');
+const boltTranspiler = require('../index');
+
+var VERSION_STRING = "Firebase Bolt v" + pkg.version;
+
+var opts = {
+  boolean: ['version', 'help'],
+  string: ['output'],
+  alias: {
+    'v': 'version',
+    'h': 'help'
+  },
+  unknown: function(flag) {
+    if (flag[0] == '-') {
+      console.error("Unknown flag: '" + flag + "'");
+      usage(1);
+    }
+  }
+};
+
+function usage(code) {
+  var cmdName = process.argv[1].split('/').slice(-1);
+  console.error("Translate Firebase Bolt file into Typescript.\n");
+  console.error("  Usage: " + cmdName + " [options] [file]\n");
+  console.error("  Examples: " + cmdName + " < myapp.bolt > rules.ts");
+  console.error("  Options:\n");
+  console.error([
+    "-h --help      Display this helpful message.",
+    "-v --version   Display Firebase Bolt Transpiler version."
+  ].join('\n'));
+
+  process.exit(code);
+}
+
+function readFile(f, callback) {
+  var input = "";
+
+  f.setEncoding('utf8');
+  f.on('data', function(chunk) {
+    input += chunk;
+  });
+
+  f.on('end', function() {
+    callback(input);
+  });
+}
+
+function main() {
+  var args = parseArgs(process.argv.slice(2), opts);
+
+  if (args.version) {
+    console.log(VERSION_STRING);
+    return;
+  }
+
+  if (args.help) {
+    usage(0);
+  }
+
+  readFile(process.stdin, function(data) {
+    console.log(boltTranspiler.typescript(data));
+  });
+}
+
+main();
