@@ -1,12 +1,12 @@
-interface Nickname extends String {
+export interface Nickname extends String {
 }
-interface UserID extends String {
+export interface UserID extends String {
 }
-interface MessageString extends String {
+export interface MessageString extends String {
 }
-interface Timestamp extends Number {
+export interface Timestamp extends Number {
 }
-interface Message {
+export interface Message {
   user: UserID;
   message: MessageString;
   timestamp: Timestamp;
