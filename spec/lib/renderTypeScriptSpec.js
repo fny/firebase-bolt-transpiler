@@ -1,7 +1,7 @@
-const bolt = require('firebase-bolt');
-const SimpleBoltSchema = require('../../lib/SimpleBoltSchema.js');
-const renderTypeScript = require('../../lib/renderTypeScript.js');
-const _ = require('lodash');
+const bolt = require("firebase-bolt");
+const SimpleBoltSchema = require("../../lib/SimpleBoltSchema.js");
+const renderTypeScript = require("../../lib/renderTypeScript.js");
+const _ = require("lodash");
 
 const boltExample = `
 type Type {}
@@ -48,8 +48,8 @@ type PropertyLineCheck {
 `;
 
 const schema = new SimpleBoltSchema(bolt.parse(boltExample).schema);
-const typesByName = _.keyBy(schema.types, 'name');
-const propsByName = _.keyBy(typesByName.PropertyLineCheck.properties, 'name');
+const typesByName = _.keyBy(schema.types, "name");
+const propsByName = _.keyBy(typesByName.PropertyLineCheck.properties, "name");
 
 function interfaceOpen(interfaceName) {
   return renderTypeScript.interfaceOpen(typesByName[interfaceName]);
@@ -58,31 +58,34 @@ function propertyLine(propName) {
   return renderTypeScript.propertyLine(propsByName[propName]);
 }
 
-describe('renderTypeScript', () => {
-  describe('interfaceOpen', () => {
-    it('simple type with properties', () => {
-      expect(interfaceOpen('SimpleType'))
-        .toEqual('interface SimpleType {');
+describe("renderTypeScript", () => {
+  describe("interfaceOpen", () => {
+    it("simple type with properties", () => {
+      expect(interfaceOpen("SimpleType")).toEqual(
+        "export interface SimpleType {"
+      );
     });
 
-    it('generic type with properties', () => {
-      expect(interfaceOpen('GenericType'))
-        .toEqual('interface GenericType<T> {');
+    it("generic type with properties", () => {
+      expect(interfaceOpen("GenericType")).toEqual(
+        "export interface GenericType<T> {"
+      );
     });
 
-    it('generic type with multiple parameters', () => {
-      expect(interfaceOpen('Pairs'))
-        .toEqual('interface Pairs<X, Y> {');
+    it("generic type with multiple parameters", () => {
+      expect(interfaceOpen("Pairs")).toEqual("export interface Pairs<X, Y> {");
     });
 
-    it('type without any properties (should extend Any)', () => {
-      expect(interfaceOpen('NoDefinedProperties'))
-        .toEqual('interface NoDefinedProperties extends Any {');
+    it("type without any properties (should extend Any)", () => {
+      expect(interfaceOpen("NoDefinedProperties")).toEqual(
+        "export interface NoDefinedProperties extends Any {"
+      );
     });
 
-    it('type which extends another type', () => {
-      expect(interfaceOpen('StringExtension'))
-        .toEqual('interface StringExtension extends String {');
+    it("type which extends another type", () => {
+      expect(interfaceOpen("StringExtension")).toEqual(
+        "export interface StringExtension extends String {"
+      );
     });
 
     // it('type which extends Object', () => {
@@ -90,25 +93,27 @@ describe('renderTypeScript', () => {
     //     .toEqual('interface ObjectExtension extends Object {');
     // });
 
-    it('type which extends a generic with a single parameter', () => {
-      expect(interfaceOpen('GenericExtension'))
-        .toEqual('interface GenericExtension extends GenericType<number> {');
+    it("type which extends a generic with a single parameter", () => {
+      expect(interfaceOpen("GenericExtension")).toEqual(
+        "export interface GenericExtension extends GenericType<number> {"
+      );
     });
 
-    it('type which extends a generic with multiple parameters', () => {
-      expect(interfaceOpen('PairExtension'))
-        .toEqual('interface PairExtension extends Pair<number, string> {');
+    it("type which extends a generic with multiple parameters", () => {
+      expect(interfaceOpen("PairExtension")).toEqual(
+        "export interface PairExtension extends Pair<number, string> {"
+      );
     });
   });
 
-  describe('propertyLine', () => {
-    it('renders builtins appropriately', () => {
-      expect(propertyLine('any')).toEqual('any: any;');
-      expect(propertyLine('boolean')).toEqual('boolean: boolean;');
-      expect(propertyLine('number')).toEqual('number: number;');
-      expect(propertyLine('null')).toEqual('null: void;');
-      expect(propertyLine('object')).toEqual('object: Object;');
-      expect(propertyLine('string')).toEqual('string: string;');
+  describe("propertyLine", () => {
+    it("renders builtins appropriately", () => {
+      expect(propertyLine("any")).toEqual("any: any;");
+      expect(propertyLine("boolean")).toEqual("boolean: boolean;");
+      expect(propertyLine("number")).toEqual("number: number;");
+      expect(propertyLine("null")).toEqual("null: void;");
+      expect(propertyLine("object")).toEqual("object: Object;");
+      expect(propertyLine("string")).toEqual("string: string;");
     });
   });
 
@@ -116,40 +121,49 @@ describe('renderTypeScript', () => {
   // Generics
   //
 
-  it('arrays', () => {
-    expect(propertyLine('objects')).toEqual('objects: { [key: string]: Object; };');
+  it("arrays", () => {
+    expect(propertyLine("objects")).toEqual(
+      "objects: { [key: string]: Object; };"
+    );
   });
 
-  it('maps', () => {
-    expect(propertyLine('map')).toEqual('map: { [key: string]: number; };');
+  it("maps", () => {
+    expect(propertyLine("map")).toEqual("map: { [key: string]: number; };");
   });
 
-  it('pair', () => {
-    expect(propertyLine('pair')).toEqual('pair: Pair<number, string>;');
+  it("pair", () => {
+    expect(propertyLine("pair")).toEqual("pair: Pair<number, string>;");
   });
 
   //
   // Unions
   //
 
-  it('union', () => {
-    expect(propertyLine('union')).toEqual('union: Type | string | number;');
+  it("union", () => {
+    expect(propertyLine("union")).toEqual("union: Type | string | number;");
   });
 
-  it('union with null', () => {
-    expect(propertyLine('nullable_union')).toEqual('nullable_union?: Type | string | number;');
+  it("union with null", () => {
+    expect(propertyLine("nullable_union")).toEqual(
+      "nullable_union?: Type | string | number;"
+    );
   });
 
-  it('nullable', () => {
-    expect(propertyLine('nullable_string')).toEqual('nullable_string?: string;');
+  it("nullable", () => {
+    expect(propertyLine("nullable_string")).toEqual(
+      "nullable_string?: string;"
+    );
   });
 
-  it('union with generic', () => {
-    expect(propertyLine('generic_union')).toEqual('generic_union: Pair<number, string> | number;');
+  it("union with generic", () => {
+    expect(propertyLine("generic_union")).toEqual(
+      "generic_union: Pair<number, string> | number;"
+    );
   });
 
-  it('nested union with generic', () => {
-    expect(propertyLine('nested_generic_union'))
-      .toEqual('nested_generic_union: Pair<Pair<number, string>, string> | number;');
+  it("nested union with generic", () => {
+    expect(propertyLine("nested_generic_union")).toEqual(
+      "nested_generic_union: Pair<Pair<number, string>, string> | number;"
+    );
   });
 });

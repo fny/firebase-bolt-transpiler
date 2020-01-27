@@ -1,16 +1,16 @@
-interface App {
+export interface App {
   users: { [key: string]: User; };
   products: { [key: string]: Product; };
 }
-interface User {
+export interface User {
   name: string;
   age: number;
 }
-interface Product {
+export interface Product {
   id: ProductID;
   cost: number;
 }
-interface ProductID extends String {
+export interface ProductID extends String {
 }
-interface PushID extends String {
+export interface PushID extends String {
 }

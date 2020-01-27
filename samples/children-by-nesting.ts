@@ -1,6 +1,6 @@
-interface Child {
+export interface Child {
   age: number;
 }
-interface Parent {
+export interface Parent {
   children: { [key: string]: Child; };
 }
